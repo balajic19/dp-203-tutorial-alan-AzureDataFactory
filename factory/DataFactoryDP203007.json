@@ -1,0 +1,9 @@
+{
+	"name": "DataFactoryDP203007",
+	"location": "eastus",
+	"identity": {
+		"type": "SystemAssigned",
+		"principalId": "ec510976-d67f-4272-a24a-370485f29893",
+		"tenantId": "ab3df463-fe29-4800-af37-932a2b0ee106"
+	}
+}

@@ -1,0 +1,6 @@
+{
+	"name": "IRappvm",
+	"properties": {
+		"type": "SelfHosted"
+	}
+}

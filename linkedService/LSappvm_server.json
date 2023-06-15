@@ -1,0 +1,17 @@
+{
+	"name": "LSappvm_server",
+	"type": "Microsoft.DataFactory/factories/linkedservices",
+	"properties": {
+		"annotations": [],
+		"type": "FileServer",
+		"typeProperties": {
+			"host": "D:\\nginx-1.24.0\\logs",
+			"userId": "badmin",
+			"encryptedCredential": "eyJDcmVkZW50aWFsSWQiOiI1ZTIyN2RhYy0yNmM1LTQ2YzctYjYxZC1hYTBhYzVmYjYxMjYiLCJWZXJzaW9uIjoiMi4wIiwiQ2xhc3NUeXBlIjoiTWljcm9zb2Z0LkRhdGFQcm94eS5Db3JlLkludGVyU2VydmljZURhdGFDb250cmFjdC5DcmVkZW50aWFsU1UwNkNZMTQifQ=="
+		},
+		"connectVia": {
+			"referenceName": "IRappvm",
+			"type": "IntegrationRuntimeReference"
+		}
+	}
+}
