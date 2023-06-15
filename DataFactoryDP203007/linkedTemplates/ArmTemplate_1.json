@@ -25,6 +25,50 @@
 	},
 	"resources": [
 		{
+			"name": "[concat(parameters('factoryName'), '/DSproductCategory_table')]",
+			"type": "Microsoft.DataFactory/factories/datasets",
+			"apiVersion": "2018-06-01",
+			"properties": {
+				"linkedServiceName": {
+					"referenceName": "LSsampledb",
+					"type": "LinkedServiceReference"
+				},
+				"annotations": [],
+				"type": "AzureSqlTable",
+				"schema": [
+					{
+						"name": "ProductCategoryID",
+						"type": "int",
+						"precision": 10
+					},
+					{
+						"name": "ParentProductCategoryID",
+						"type": "int",
+						"precision": 10
+					},
+					{
+						"name": "Name",
+						"type": "nvarchar"
+					},
+					{
+						"name": "rowguid",
+						"type": "uniqueidentifier"
+					},
+					{
+						"name": "ModifiedDate",
+						"type": "datetime",
+						"precision": 23,
+						"scale": 3
+					}
+				],
+				"typeProperties": {
+					"schema": "SalesLT",
+					"table": "ProductCategory"
+				}
+			},
+			"dependsOn": []
+		},
+		{
 			"name": "[concat(parameters('factoryName'), '/DSproductModel_table')]",
 			"type": "Microsoft.DataFactory/factories/datasets",
 			"apiVersion": "2018-06-01",
@@ -2067,7 +2111,8 @@
 			},
 			"dependsOn": [
 				"[concat(variables('factoryId'), '/datasets/DSproduct_table')]",
-				"[concat(variables('factoryId'), '/datasets/DSproductModel_table')]"
+				"[concat(variables('factoryId'), '/datasets/DSproductModel_table')]",
+				"[concat(variables('factoryId'), '/datasets/DSproductCategory_table')]"
 			]
 		},
 		{
@@ -2157,64 +2202,6 @@
 						"          Resourcegroup,",
 						"          Resource",
 						"     )) ~> LogdataParquetPoolStream"
-					]
-				}
-			},
-			"dependsOn": []
-		},
-		{
-			"name": "[concat(parameters('factoryName'), '/04_dataflow_json')]",
-			"type": "Microsoft.DataFactory/factories/dataflows",
-			"apiVersion": "2018-06-01",
-			"properties": {
-				"type": "MappingDataFlow",
-				"typeProperties": {
-					"sources": [
-						{
-							"dataset": {
-								"referenceName": "DSlogdata_parquet",
-								"type": "DatasetReference"
-							},
-							"name": "logdataParquetStream"
-						}
-					],
-					"sinks": [
-						{
-							"dataset": {
-								"referenceName": "DSlogdataJson",
-								"type": "DatasetReference"
-							},
-							"name": "sink1"
-						}
-					],
-					"transformations": [],
-					"scriptLines": [
-						"source(output(",
-						"          Correlationid as string,",
-						"          Operationname as string,",
-						"          Status as string,",
-						"          Eventcategory as string,",
-						"          Level as string,",
-						"          Time as timestamp,",
-						"          Subscription as string,",
-						"          Eventinitiatedby as string,",
-						"          Resourcetype as string,",
-						"          Resourcegroup as string,",
-						"          Resource as string",
-						"     ),",
-						"     allowSchemaDrift: true,",
-						"     validateSchema: false,",
-						"     ignoreNoFilesFound: false,",
-						"     format: 'parquet') ~> logdataParquetStream",
-						"logdataParquetStream sink(allowSchemaDrift: true,",
-						"     validateSchema: false,",
-						"     partitionFileNames:['log.json'],",
-						"     umask: 0022,",
-						"     preCommands: [],",
-						"     postCommands: [],",
-						"     skipDuplicateMapInputs: true,",
-						"     skipDuplicateMapOutputs: true,",
-						"     partitionBy('hash', 1)) ~> sink1"
 					]
 				}
 			},
