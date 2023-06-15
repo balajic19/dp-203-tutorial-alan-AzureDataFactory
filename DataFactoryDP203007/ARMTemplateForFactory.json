@@ -206,7 +206,9 @@
 							{
 								"referenceName": "SourceDataset_oea",
 								"type": "DatasetReference",
-								"parameters": {}
+								"parameters": {
+									"filename": "log.csv"
+								}
 							}
 						],
 						"outputs": [
@@ -411,7 +413,9 @@
 							{
 								"referenceName": "SourceDataset_oea",
 								"type": "DatasetReference",
-								"parameters": {}
+								"parameters": {
+									"filename": "log.csv"
+								}
 							}
 						],
 						"outputs": [
@@ -2737,12 +2741,20 @@
 					"referenceName": "LSsamplestore01",
 					"type": "LinkedServiceReference"
 				},
+				"parameters": {
+					"filename": {
+						"type": "string"
+					}
+				},
 				"annotations": [],
 				"type": "DelimitedText",
 				"typeProperties": {
 					"location": {
 						"type": "AzureBlobFSLocation",
-						"fileName": "Log.csv",
+						"fileName": {
+							"value": "@dataset().filename",
+							"type": "Expression"
+						},
 						"fileSystem": "csv"
 					},
 					"columnDelimiter": ",",
