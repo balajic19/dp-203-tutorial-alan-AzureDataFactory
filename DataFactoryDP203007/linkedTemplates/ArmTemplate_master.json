@@ -1,0 +1,131 @@
+{
+	"$schema": "http://schema.management.azure.com/schemas/2015-01-01/deploymentTemplate.json#",
+	"contentVersion": "1.0.0.0",
+	"parameters": {
+		"factoryName": {
+			"type": "string",
+			"metadata": "Data Factory name",
+			"defaultValue": "DataFactoryDP203007"
+		},
+		"LSappvm_server_password": {
+			"type": "secureString",
+			"metadata": "Secure string for 'password' of 'LSappvm_server'"
+		},
+		"LSsampledb_connectionString": {
+			"type": "secureString",
+			"metadata": "Secure string for 'connectionString' of 'LSsampledb'"
+		},
+		"LSsamplestore01_accountKey": {
+			"type": "secureString",
+			"metadata": "Secure string for 'accountKey' of 'LSsamplestore01'"
+		},
+		"LSworkspacedataeng_connectionString": {
+			"type": "secureString",
+			"metadata": "Secure string for 'connectionString' of 'LSworkspacedataeng'"
+		},
+		"LSappvm_server_properties_typeProperties_host": {
+			"type": "string",
+			"defaultValue": "D:\\nginx-1.24.0\\logs"
+		},
+		"LSappvm_server_properties_typeProperties_userId": {
+			"type": "string",
+			"defaultValue": "badmin"
+		},
+		"LSsamplestore01_properties_typeProperties_url": {
+			"type": "string",
+			"defaultValue": "https://samplestore01.dfs.core.windows.net/"
+		},
+		"containerUri": {
+			"type": "string",
+			"metadata": "URI to storage account containing linked ARM templates"
+		},
+		"containerSasToken": {
+			"type": "string",
+			"metadata": "Sas token to storage account containing linked ARM templates"
+		}
+	},
+	"variables": {
+		"factoryId": "[concat('Microsoft.DataFactory/factories/', parameters('factoryName'))]"
+	},
+	"resources": [
+		{
+			"name": "DataFactoryDP203007_ArmTemplate_0",
+			"type": "Microsoft.Resources/deployments",
+			"apiVersion": "2018-02-01",
+			"properties": {
+				"mode": "incremental",
+				"templateLink": {
+					"uri": "[concat(parameters('containerUri'), '/ArmTemplate_0.json', parameters('containerSasToken'))]",
+					"contentVersion": "1.0.0.0"
+				},
+				"parameters": {
+					"factoryName": {
+						"value": "[parameters('factoryName')]"
+					},
+					"LSsampledb_connectionString": {
+						"value": "[parameters('LSsampledb_connectionString')]"
+					},
+					"LSsamplestore01_accountKey": {
+						"value": "[parameters('LSsamplestore01_accountKey')]"
+					},
+					"LSworkspacedataeng_connectionString": {
+						"value": "[parameters('LSworkspacedataeng_connectionString')]"
+					},
+					"LSsamplestore01_properties_typeProperties_url": {
+						"value": "[parameters('LSsamplestore01_properties_typeProperties_url')]"
+					}
+				}
+			},
+			"dependsOn": []
+		},
+		{
+			"name": "DataFactoryDP203007_ArmTemplate_1",
+			"type": "Microsoft.Resources/deployments",
+			"apiVersion": "2018-02-01",
+			"properties": {
+				"mode": "incremental",
+				"templateLink": {
+					"uri": "[concat(parameters('containerUri'), '/ArmTemplate_1.json', parameters('containerSasToken'))]",
+					"contentVersion": "1.0.0.0"
+				},
+				"parameters": {
+					"factoryName": {
+						"value": "[parameters('factoryName')]"
+					},
+					"LSappvm_server_password": {
+						"value": "[parameters('LSappvm_server_password')]"
+					},
+					"LSappvm_server_properties_typeProperties_host": {
+						"value": "[parameters('LSappvm_server_properties_typeProperties_host')]"
+					},
+					"LSappvm_server_properties_typeProperties_userId": {
+						"value": "[parameters('LSappvm_server_properties_typeProperties_userId')]"
+					}
+				}
+			},
+			"dependsOn": [
+				"[resourceId('Microsoft.Resources/deployments', 'DataFactoryDP203007_ArmTemplate_0')]"
+			]
+		},
+		{
+			"name": "DataFactoryDP203007_ArmTemplate_2",
+			"type": "Microsoft.Resources/deployments",
+			"apiVersion": "2018-02-01",
+			"properties": {
+				"mode": "incremental",
+				"templateLink": {
+					"uri": "[concat(parameters('containerUri'), '/ArmTemplate_2.json', parameters('containerSasToken'))]",
+					"contentVersion": "1.0.0.0"
+				},
+				"parameters": {
+					"factoryName": {
+						"value": "[parameters('factoryName')]"
+					}
+				}
+			},
+			"dependsOn": [
+				"[resourceId('Microsoft.Resources/deployments', 'DataFactoryDP203007_ArmTemplate_1')]"
+			]
+		}
+	]
+}
