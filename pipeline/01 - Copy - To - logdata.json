@@ -161,7 +161,10 @@
 				"inputs": [
 					{
 						"referenceName": "SourceDataset_oea",
-						"type": "DatasetReference"
+						"type": "DatasetReference",
+						"parameters": {
+							"filename": "log.csv"
+						}
 					}
 				],
 				"outputs": [
